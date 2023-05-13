@@ -43,9 +43,10 @@ def Find(string):
     else:
         l = string.split(" ")
         for i in l:
-            if ".com" in i or ".net" in i or ".ca" in i or ".jp" in i or ".org" in i or ".ru" in i and ".cn" in i:
-                url = i
-                break
+            if ".com" in i or ".ca" in i or ".org" in i or ".ru" in i or ".net" in i or ".cn" in i or ".co.uk" in i or ".gov" in i or ".in" in i or ".au" in i or ".de" in i or ".jp" in i or ".fr" in i or ".us" in i or ".it" in i or ".nl" in i or ".es" in i or ".br" in i or ".se" in i or ".mx" in i or ".nz" in i or ".ch" in i or ".pl" in i or ".ru" in i or ".be" in i or ".at" in i or ".dk" in i or ".ca" in i or ".ar" in i or ".no" in i or ".tr" in i or ".hu" in i or ".hk" in i or ".vn" in i or ".id" in i or ".cz" in i or ".ro" in i or ".th" in i or ".gr" in i or ".pt" in i or ".sk" in i or ".fi" in i or ".ie" in i or ".il" in i or ".sg" in i or ".my" in i or ".cl" in i or ".ph" in i or ".ua" in i or ".rs" in i or ".kr" in i or ".co" in i or ".lt" in i or ".si" in i or ".ee" in i or ".bg" in i or ".hr" in i or ".rs" in i or ".lv" in i or ".is" in i or ".ng" in i or ".pe" in i or ".ve" in i or ".ae" in i or ".za" in i or ".do" in i or ".by" in i or ".kz" in i or ".ba" in i or ".mk" in i or ".cy" in i or ".lu" in i or ".cr" in i or ".lb" in i or ".pk" in i or ".lt" in i or ".ec" in i or ".gt" in i or ".uy" in i or ".sv" in i or ".pa" in i or ".bo" in i or ".md" in i or ".qa" in i or ".np" in i or ".am" in i or ".sa" in i or ".mt" in i or ".np" in i:
+                url = i[4:]
+
+    
     return url
 
 ostype="what"
@@ -210,7 +211,7 @@ def get_password_and_gmail(): # Bunch of code that returns the details used for 
 api_key_chatgpt, conversation_id, sayoutput = get_password_and_gmail()
 
 string_acess_token = str(api_key_chatgpt) #this is because if I directly write acess token it dosent work, for some reason.
-chatbot = ChatGPT(api_key='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')
+chatbot = ChatGPT(api_key='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')
 #for everyones sake put this(/|\) in the json file
 #cmd:done
 if(len(conversation_id)<5):
@@ -229,6 +230,7 @@ LIGHT1 = "0001"
 LIGHT2 = "0002"
 LIGHT3 = "0003"
 LIGHT4 = "0004"
+
 
 
 
