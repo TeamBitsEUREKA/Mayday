@@ -38,6 +38,14 @@ def Find(string):
     # with valid conditions for urls in string
     if "https" in string or "Https" in string:
         url = re.search(r'(https?://\S+)', string).group()
+    elif "http" in string or "Http" in string:
+        url = re.search(r'(http?://\S+)', string).group()
+    else:
+        l = string.split(" ")
+        for i in l:
+            if ".com" in i or ".net" in i or ".ca" in i or ".jp" in i or ".org" in i or ".ru" in i and ".cn" in i:
+                url = i
+                break
     return url
 
 ostype="what"
