@@ -176,7 +176,7 @@ def say(text):
     print("say:"+text)
 
 def clear():
-    os.system("")
+    os.system("cls")
 
 def incode(a):
     x=0
