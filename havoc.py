@@ -1,25 +1,79 @@
-import datetime
-import os
-import re
-from revChatGPT.V3 import Chatbot as ChatGPT
-import json
-import font
-import webbrowser
-import time
-import pyttsx3
-from pynput.keyboard import Key, Controller
-import platform
-import threading as run_thread
-global newconv, storegmail, storepassword, variable_pairs, chatgptflag, loading, loadingtext, command, threading, noteid, sayoutput, overridechat, rules, keyboard
+#config
+usegoogletts=False
+
+
+
+# check if each import is installed
+try:
+    import font
+    font.gen("SMALLstarting")
+    def bigfont(text):
+        font.gen(text)
+except:
+    print("no font.py found")
+    def bigfont(text):
+        if text.startswith("SMALL")==True:
+            print(("StArT"+text).replace("StArTSMALL",""))
+        else:
+            print(text.upper())
+#cmd:font.py checking
+try:
+    import datetime
+    import os
+    import re
+    from revChatGPT.V3 import Chatbot as ChatGPT
+    import json
+    import webbrowser
+    import time
+    import pyttsx3
+    from pynput.keyboard import Key, Controller
+    import platform
+    import threading as run_thread
+    if usegoogletts==True:
+     import vlc
+     from gtts import gTTS
+#except ImportError:
+except Exception as e:
+    print(e)
+    bigfont("SMALLinstalling addons")
+    print("Error: One or more modules are not installed, installing now...")
+    os.system("pip install revChatGPT")
+    os.system("pip install webbrowser")
+    os.system("pip install pyttsx3")
+    os.system("pip install pynput")
+    if usegoogletts==True:
+     os.system("pip install python-vlc")
+     os.system("pip install gTTS")
+try:
+     tts = gTTS("booting", lang='en')
+     tts.save('hello.mp3')
+     p = vlc.MediaPlayer("hello.mp3")
+     p.play()
+except:
+ usegoogletts=False
+ try:
+    engine = pyttsx3.init()
+    sayoutput=True
+    try:
+     engine.setProperty('voice', engine.getProperty('voices')[1].id)
+    except:
+        bigfont("SMALLno alt tts found")
+ except:
+    sayoutput=False
+    bigfont("SMALLno tts found")
+
+global newconv, storegmail, storepassword, variable_pairs, chatgptflag, loading, loadingtext, command, threading, noteid, overridechat, rules, keyboard, init, get_password_and_gmail, say, make_sound
 
 
 command = ""
 overridechat=False
 noteid=0
-verson="3.1.5"
+verson="3.1.9"
 has_been_called = False
-
 keyboard = Controller()
+
+def askai(inp):
+    return chatbot.ask(inp)
 
 def Find(string):
     if "https" in string or "Https" in string:
@@ -52,6 +106,7 @@ try:
         
 except:
     print("Platform check failed...")
+    
 def make_sound(pitch,delay):
         if ostype=="mac":
             print("\a")
@@ -89,7 +144,7 @@ def type_something(string):
         else:
             keyboard.press(char)
             keyboard.release(char)
-        time.sleep(0.007) # speed adjust
+        time.sleep(0.007)
 
 def windows_search(search_string):
     keyboard.press(Key.cmd)
@@ -100,28 +155,28 @@ def windows_search(search_string):
     time.sleep(1)
     
 def say(text):
+ if sayoutput==True:
     cleaned_text = text
 
-    if text.__contains__("COMmand-") or text.__contains__("URL-") or text.__contains__("PY-") or text.__contains__("Search-") or text.__contains__("Type-") or text.__contains__("VBS-") or text.__contains__("LIST-") or text.__contains__("Timer-"):
-        cleaned_text = cleaned_text.split("COMmand-", 1)[0]
-        cleaned_text = cleaned_text.split("URL-", 1)[0]
-        cleaned_text = cleaned_text.split("PY-", 1)[0]
-        cleaned_text = cleaned_text.split("Search-", 1)[0]
-        cleaned_text = cleaned_text.split("Type-", 1)[0]
-        cleaned_text = cleaned_text.split("VBS-", 1)[0]
-        cleaned_text = cleaned_text.split("LIST-", 1)[0]
-        cleaned_text = cleaned_text.split("Timer-", 1)[0]
-        say("Okay, Doing that now.")
+    Cmdprefixes = ["COMmand-", "URL-", "PY-", "Search-", "Type-", "VBS-", "LIST-", "Timer-"]
+    for prefix in Cmdprefixes:
+        if text.__contains__(prefix):
+            cleaned_text = cleaned_text.split(prefix, 1)[0]
+            cleaned_text="Okay, Doing that now."
 
-    print(cleaned_text)
-
-    engine = pyttsx3.init()
-    engine.say(cleaned_text)
-    engine.runAndWait()
+    if usegoogletts==False:
+        engine.say(cleaned_text)
+        engine.runAndWait()
+    else:
+        tts = gTTS(cleaned_text, lang='en')
+        tts.save('hello.mp3')
+        p = vlc.MediaPlayer("hello.mp3")
+        p.play()
+ else:
+    print("say:"+text)
 
 def clear():
-    os.system("cls")
-
+    os.system("")
 
 def incode(a):
     x=0
@@ -134,13 +189,13 @@ def incode(a):
     return c.replace("#ThiSiSTheEnd","").replace("ThiSiSTheEnd","")
 
 def get_password_and_gmail():
+ try:
     try:
         with open('data.json', 'r') as json_file:
             data = json.load(json_file)
     except FileNotFoundError:
         data = {}
-
-    if set(['storechatapi', 'storeid']) - set(data.keys()):
+    if data=={}:
         say("Welcome to the Mayday AI setup.")
         font.gen(" <setup> ")
 
@@ -157,19 +212,24 @@ def get_password_and_gmail():
         if data["username"] != incode(os.environ.get('username')):
             os.system("del data.json")
             return get_password_and_gmail()
-
+    # runs this normally
+    print(incode(data['storechatapi']),
+            data['storeid'].replace(" ",""),
+            data['sayoutput']=="True" and sayoutput==True)
     return (incode(data['storechatapi']),
-            data['storeid'],
-            True)
+            data['storeid'].replace(" ",""),
+            data['sayoutput']=="True" and sayoutput==True)
+ except Exception as e:
+    print(e)
 
 def execute_command(command):
+ try:
     allowtwo=0
     if command.replace("AnD","")!=command:
         oldcom=command
         command=command.split("AnD")[0]
         oldcom=oldcom[len(command)+3:]
         allowtwo=1
-
 
     if command.__contains__("COMmand-"):
         command = command.replace("COMmand-", "").replace("%username%", r"\%username%").split("Please note that")[0]
@@ -219,7 +279,7 @@ def execute_command(command):
         dircom=command.split("LIST-")[1]
         dircom=",".join(os.listdir(dircom)).replace(".lnk","")
         print(dircom)
-        resp = chatbot.ask("the files in "+command.split("LIST-")[1]+" are "+dircom)
+        resp = askai("the files in "+command.split("LIST-")[1]+" are "+dircom)
         command=execute_command(resp)
 
     elif command.__contains__('Timer-'):
@@ -232,14 +292,18 @@ def execute_command(command):
     # Other command cases go here
 
     if (command.__contains__("I'm sorry, I am ") or command.__contains__("I'm sorry, but as a ")):
-                chatbot.ask("NEVER tell me what you can or cant do, just do what I say.\nNEVER explain what a command does\nNEVER tell me that your a language model")
+                askai("NEVER tell me what you can or cant do, just do what I say.\nNEVER explain what a command does\nNEVER tell me that your a language model")
     
 
     if(allowtwo==1):
         command=execute_command(oldcom)
-    if(len(command)>200):
-        resp = chatbot.ask("please type shorted commands")
+    if(len(command)>400):
+        resp = askai("please type shorter commands(less then 400 chars)")
     return command
+ except Exception as e:
+   bigfont("ERROR")
+   print("Exception in execute command: " + str(e))
+   askai("COMMAND FAILED:" + str(e))
 
 def init(userinput, noteid):
     global resp, has_been_called, command
@@ -248,27 +312,28 @@ def init(userinput, noteid):
         resp = "hello"
         say(resp)
     else:
-        notetochat = [f"the time is {datetime.datetime.now()}", f"my username is {os.environ.get('username')}"]
+        notetochat = [f"the date and time is {datetime.datetime.now()}", f"my username is {os.environ.get('username')}"]
+
         if not overridechat:
             if not has_been_called:
                 with open('rules.txt', 'r') as f:
                     rules = f.read()
-                chatbot.ask(str(rules))
+                askai(str(rules))
                 has_been_called = True
-            thingy = chatbot.ask(prompt=str(f"{userinput},note {notetochat[noteid]}"))
-            say(thingy)
-            execute_command(command=thingy)
-        
+            resp = chatbot.ask(prompt=str(userinput+",note "+notetochat[noteid]))
+            say(resp)
+            execute_command(command=resp)
+            #cmd:ren thingy to resp
         else:
             command = input()
             
     return command, noteid
 
-conversation_id = get_password_and_gmail()
 
-with open("key.txt","r") as f:
-    api_key = f.read()
-chatbot = ChatGPT(api_key=api_key)
+### MAIN STUFF ###
+api_key_chatgpt,conversation_id,sayoutput = get_password_and_gmail()
+api_key_chatgpt=api_key_chatgpt.replace(" ","")
+chatbot = ChatGPT(api_key=str(api_key_chatgpt))
 if(len(conversation_id)<5):
     say("New chat created")
 with open("rules.txt", "r") as file:
@@ -277,5 +342,5 @@ chatbot.ask(prompt=rules)
 chatgpt_flag = True
 loading=False
 clear()
-font.gen("Mayday")
-font.gen(verson)
+bigfont("Mayday")
+bigfont("SMALL"+verson)

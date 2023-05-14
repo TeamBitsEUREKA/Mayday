@@ -8,6 +8,7 @@ import speech_recognition as sr
 import font
 import sys
 import json
+sayoutput=False
 
 class App:
     def __init__(self):
@@ -83,6 +84,8 @@ class App:
 
     def stop(self):
         self.window.destroy()
+        # kill all processes created by this program
+        os.system("taskkill /f /im python.exe")
 
     def run_program(self):
         global overridechat, wakes, setup, setup2
