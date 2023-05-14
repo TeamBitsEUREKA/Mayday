@@ -176,8 +176,7 @@ class App:
                 font.gen("error")
                 print(e)
                 os.execv(sys.executable, [sys.executable] + sys.argv)
-        if(exited==0):input()
-        #pause on crash
+
 
     def run(self):
         self.window.mainloop()
