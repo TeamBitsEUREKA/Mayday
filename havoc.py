@@ -211,9 +211,14 @@ def get_password_and_gmail(): # Bunch of code that returns the details used for 
 api_key_chatgpt, conversation_id, sayoutput = get_password_and_gmail()
 
 string_acess_token = str(api_key_chatgpt) #this is because if I directly write acess token it dosent work, for some reason.
-chatbot = ChatGPT(api_key='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')
+with open("key.txt","r") as f:
+    api_key = f.read()
+chatbot = ChatGPT(api_key=api_key)
 #for everyones sake put this(/|\) in the json file
 #cmd:done
+
+# 
+
 if(len(conversation_id)<5):
     say("New chat created")
 with open("rules.txt", "r") as file:
@@ -353,4 +358,4 @@ def init(userinput, noteid):
         #    print("error")
         #    print(e)
 
-    return command, noteid2
+    return command, noteid
