@@ -3,7 +3,7 @@ import threading
 import tkinter as tk
 from tkinter import messagebox
 
-from havoc import init, get_password_and_gmail, say, make_sound
+from havoc import init, get_password_and_gmail, make_sound
 import speech_recognition as sr
 import font
 import sys
@@ -142,7 +142,7 @@ class App:
                     make_sound(100,10)
                     make_sound(50,10)
                     
-                    say("are you sure?")
+                    print("are you sure?")
                     font.gen("Y / N")
                     text = get_audio()
                     text=text.replace("i am ","im ")
