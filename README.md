@@ -39,16 +39,16 @@ to download the requirments for the TTS engine, you can run the commands as foll
 
 1. Download and install anaconda, as this repo fully supports it and it is recommended if you dont want to hop through alot of hoops to install the requirments on the latest version of python, you can find the anaconda installer here: https://www.anaconda.com/ once you have installed anaconda launch Anaconda prompt (on windows you can search it, you should be able to install this without anaconda on linux, although this is not tested), every command we are going to be running is going to be inside of Anaconda prompt so dont mess this up.
 2. cd to the directory you want to use for this project (optional)
-3. run 'git clone -b Switch-TTS-Engine https://github.com/TeamBitsEUREKA/Mayday.git'
-4. cd into the directory 'cd Switch-TTS-Engine'
-5. git clone the TTS engine 'git clone https://github.com/152334H/tortoise-tts-fast'
-6. cd into the TTS engine 'cd tortoise-tts-fast'
-7. install TTS engine requirments 'pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu117'
-8. install the TTS engine 'python -m pip install -e .' ('python3 -m pip install -e .' for Linux users)
+3. run ```git clone -b Switch-TTS-Engine https://github.com/TeamBitsEUREKA/Mayday.git```
+4. cd into the directory ```cd Switch-TTS-Engine```
+5. git clone the TTS engine ```git clone https://github.com/152334H/tortoise-tts-fast```
+6. cd into the TTS engine ```cd tortoise-tts-fast```
+7. install TTS engine requirments ```pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu117```
+8. install the TTS engine ```python -m pip install -e .``` (```python3 -m pip install -e .``` for Linux users)
 9. install BigVGAN incoder 'pip3 install git+https://github.com/152334H/BigVGAN.git'
-10. cd back to the main directory 'cd ..'
-11. delete the TTS engine directory 'rmdir /s tortoise-tts-fast' press 'y' when prompted
-12. open the 'havoc.py' file using a text editor, and at the top of the file you should see the following:
+10. cd back to the main directory ```cd ..```
+11. delete the TTS engine directory ```rmdir /s tortoise-tts-fast``` press ```y``` when prompted
+12. open the ```havoc.py``` file using a text editor, and at the top of the file you should see the following:
 ```
 #config
 ttslogs=True
